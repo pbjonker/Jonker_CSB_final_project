@@ -3,7 +3,10 @@ library(tibble)
 install.packages("Stack")
 library(Stack)
 library(dplyr)
-## first set out to find upr gene overlap data (below)
+
+
+
+## first find upr gene overlap data (below)
 setwd("~/Documents/Graduate_School/Research/Elf_Research/Binding_Partners")
 binding_partners <- read.delim("binding_partners.txt")
 length(binding_partners)
@@ -14,6 +17,8 @@ v1 <- upr_proteins$V1
 v2 <- binding_partners$gene
 upr_overlay <- intersect(v1, v2)
 ##upr gene overlap data end
+
+
 
 ##NFkB signaling protein overlap
 NFkB_raw <- read.csv("NFkB_proteins.csv", header = FALSE)
@@ -27,6 +32,9 @@ NFkB_overlap <- intersect(v2, v3)
 view(NFkB_overlap)
 ##NFkB overlap data ends
 
+
+
+
 ##Amino Acid transporter overlap
 AATransporter_raw <- read.csv("AATransporter_proteins.csv", header = FALSE)
 view(AATransporter_raw)
@@ -38,6 +46,8 @@ v4 <- AATransporter_proteins$V1
 AATransporter_overlap <- intersect(v2, v4)
 view(AATransporter_overlap)
 ##Amino Acid transporter overlap end
+
+
 
 ##Antigen processing
 Antigen_processing_raw <- read.csv("Antigen_processing_proteins.csv", header = FALSE)
@@ -51,6 +61,9 @@ Antigen_processing_overlap <- intersect(v2, v5)
 view(Antigen_processing_overlap)
 ##antigen processing end
 
+
+
+
 ##Apoptosis proteins start
 Apoptosis_raw <- read.csv("Apoptosis_proteins.csv", header = FALSE)
 view(Apoptosis_raw)
@@ -62,6 +75,9 @@ v6 <- Apoptosis_proteins$V1
 Apoptosis_overlap <- intersect(v2, v6)
 view(Apoptosis_overlap)
 ##Apoptosis end
+
+
+
 
 ##
 Protein_folding_raw <- read.csv("Protein_folding.csv", header = FALSE)
@@ -75,6 +91,10 @@ Protein_folding_overlap <- intersect(v2, v7)
 view(Protein_folding_overlap)
 ##
 
+
+
+
+
 ##PD1 proteins
 PD1_raw <- read.csv("PD1_proteins.csv", header = FALSE)
 view(PD1_raw)
@@ -86,6 +106,10 @@ v8 <- PD1_proteins$V1
 PD1_protein_overlap <- intersect(v2, v8)
 view(PD1_protein_overlap)
 ##end
+
+
+
+
 
 ##p53 independent DNA damage/repair proteins
 p53_raw <- read.csv("p53_indep_DNA_damage.csv", header = FALSE)
@@ -99,6 +123,10 @@ p53_indep_overlap <- intersect(v2, v9)
 view(p53_indep_overlap)
 ##end
 
+
+
+
+
 ##nucleosome proteins
 nucleosome_raw <- read.csv("nucleosome_proteins.csv", header = FALSE)
 view(nucleosome_raw)
@@ -110,6 +138,10 @@ v10 <- nucleosome_proteins$V1
 nucleosome_proteins_overlap <- intersect(v2, v10)
 view(nucleosome_proteins_overlap)
 ##nucleosome proteins end
+
+
+
+
 
 ##
 mTOR_raw <- read.csv("mTOR_proteins.csv", header = FALSE)
@@ -123,6 +155,11 @@ mTOR_proteins_overlap <- intersect(v2, v11)
 view(mTOR_proteins_overlap)
 ##
 
+
+
+
+
+
 ##Mitotic telophase/cytokenesis proteins
 Mitotic_raw <- read.csv("Mitotic_proteins.csv", header = FALSE)
 view(Mitotic_raw)
@@ -134,6 +171,11 @@ v12 <- Mitotic_proteins$V1
 Mitotic_proteins_overlap <- intersect(v2, v12)
 view(Mitotic_proteins_overlap)
 ##end
+
+
+
+
+
 
 ##Amino Acid Metabolism
 AAMetabolism_raw <- read.csv("AAMetabolism.csv", header = FALSE)
@@ -147,6 +189,9 @@ AAMetabolism_proteins_overlap <- intersect(v2, v13)
 view(AAMetabolism_proteins_overlap)
 ##End
 
+
+
+
 ##Glycolysis proteins
 Glycolysis_raw <- read.csv("Glycolysis_proteins.csv", header = FALSE)
 view(Glycolysis_raw)
@@ -158,6 +203,9 @@ v14 <- Glycolysis_proteins$V1
 Glycolysis_proteins_overlap <- intersect(v2, v14)
 view(Glycolysis_proteins_overlap)
 ##End
+
+
+
 
 ##TCR signaling proteins
 TCR_raw <- read.csv("TCR_signaling.csv", header = FALSE)
@@ -183,7 +231,10 @@ ATF4_binding_overlap <- intersect(v2, v16)
 view(ATF4_binding_overlap)
 ##
 
-##Match common genes with values to get frequencies##
+##Match common genes with values to get frequencies by finding their place in the
+##data frame using the "match" function
+
+
 #TCR
 TCR_numbers <- match(TCR_proteins_overlap, binding_partners$gene, nomatch = FALSE)
 TCR_frequency <- mean((binding_partners$frequency[TCR_numbers]))
@@ -232,7 +283,11 @@ UPR_frequency <- mean(binding_partners$frequency[UPR_numbers])
 #done calculating average frequency of each pathway analyzed
 
 
-##Calculate the percent of each pathway bound by mutant CALR##
+
+
+##Calculate the percent of each pathway bound by mutant CALR by dividing the number of
+## proteins bound by the total number of proteins in the pathway
+
 AAMetabolism_ratio <- length(AAMetabolism_proteins_overlap)/length(AAMetabolism_proteins$V1)
 AATransport_ratio <- length(AATransporter_overlap)/length(AATransporter_proteins$V1)
 Antigen_ratio <- length(Antigen_processing_overlap)/length(Antigen_processing_proteins$V1)
@@ -250,8 +305,9 @@ UPR_ratio <- length(upr_overlay)/length(upr_proteins$V1)
 ##
 
 
-##compile each data set into overlap database that contains number of genes that are##
-##affected as well as the average frequencies of those select genes##
+##compile each data set into overlap database that contains number of proteins##
+##bound as well as the average frequencies (fold binding enrichment compared to wild type)
+##of those select genes##
 
 overlap <- data.frame("Pathway", "Number of Genes", "Frequency", "Ratio",stringsAsFactors = FALSE)
 overlap <- add_row(overlap, "X.Pathway." = "Amino Acid Metabolism",
@@ -299,7 +355,7 @@ overlap <- add_row(overlap, "X.Pathway." = "UPR",
 overlap <- overlap[c(-1),]
 
 
-##bar graph for number of proteins bound for each pathway##
+##code below makes bar graph for number of proteins bound for each pathway##
 Proteins_bound <- as.numeric(overlap$X.Number.of.Genes.)
 Pathway <- overlap$X.Pathway.
 figure1 <- ggplot(data = overlap, aes(x = Pathway, y = Proteins_bound)) + 
@@ -344,10 +400,9 @@ figure4
 ## of proteins bound and the strength with which they bind##
 
 
-
-
-
-##compile all bound proteins from these pathways in order to see multiples##
+##compile all bound proteins from these pathways in order to identify proteins that appear in 
+##multiple pathways. First section pulls entire row of data from the original binding_partners
+##dataset, while the second part stacks each pull to form a complete data frame
 binding_partners1 <- binding_partners[,1:3]
 glycolysis_1 <- binding_partners1[Glycolysis_numbers,]
 glycolysis_1$"pathway"[1:4] = 'glycolysis'
@@ -378,8 +433,7 @@ TCR_1$"pathway"[1:12] = "TCR signaling"
 UPR_1 <- binding_partners1[UPR_numbers,]
 UPR_1$"pathway"[1:17] = "UPR numbers"
 
-##actually compile them using STACK function
-
+##compile each protein using STACK function
 a <- Stack(AAMetabolism_1, AATransport_1)
 b <- Stack(a, Antigen_processing_1)
 c <- Stack(b, glycolysis_1)
@@ -394,6 +448,7 @@ k <- Stack(j, protein_folding_1)
 l <- Stack(k, TCR_1)
 Compiled_binding_1 <- Stack(l, UPR_1)
 
+##put them in decreasing order based on frequency
 compiled_binding_hfrq <- Compiled_binding_1[order(Compiled_binding_1$frequency, decreasing = TRUE),]
 
 ##isolate unique genes
@@ -450,5 +505,16 @@ rownames(Compiled_duplicates_unique_noproteosome) <- NULL
 grid.newpage()
 Table3 <- grid.table(Compiled_duplicates_unique_noproteosome[1:20,1:4])
 
-
+##TO ACCESS FINAL FIGURES
+##run "figure1", "figure2", "figure3", "figure4"
+##run these blocks of code individually for each table:
+##Table1
+grid.newpage()
+Table1 <- grid.table(compiled_binding_hfrq[1:20,1:4])
+##Table2
+grid.newpage()
+Table2 <- grid.table(Compiled_duplicates_unique[1:20,1:4],)
+##Table3
+grid.newpage()
+Table3 <- grid.table(Compiled_duplicates_unique_noproteosome[1:20,1:4])
 
