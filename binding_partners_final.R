@@ -505,6 +505,7 @@ rownames(Compiled_duplicates_unique_noproteosome) <- NULL
 grid.newpage()
 Table3 <- grid.table(Compiled_duplicates_unique_noproteosome[1:20,1:4])
 
+
 ##TO ACCESS FINAL FIGURES
 ##run "figure1", "figure2", "figure3", "figure4"
 ##run these blocks of code individually for each table:
