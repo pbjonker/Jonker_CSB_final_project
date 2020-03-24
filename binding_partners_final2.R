@@ -19,7 +19,7 @@ library(tibble)
 library(ggplot2)
 library(Stack)
 library(dplyr)
-
+library(kableExtra)
 
 
 ## first find upr gene overlap data (below)
@@ -517,36 +517,54 @@ library(grid)
 library(gridExtra)
 library(data.table)
 
-
+##FINAL FIGURES
+##"figure1", "figure2", "figure3", "figure4"
+##"Table1", "Table2", "Table3"
 ##Compile tables, remove row names##
 ##Table1 = highest frequency unique bound proteins
-rownames(compiled_binding_hfrq) <- NULL
-grid.newpage()
-Table1 <- grid.table(compiled_binding_hfrq[1:20,1:4])
+##Compile tables, remove row names##
+##Table1 = highest frequency unique bound proteins
+
+compiled_binding_hfrq_plrank <- compiled_binding_hfrq[1:20 ,1:4]
+compiled_binding_hfrq_plrank <- 
+  add_column(compiled_binding_hfrq_plrank, 1:20, .before = "gene")
+colnames(compiled_binding_hfrq_plrank) <- c("rank", "gene", 
+                                                        "family", "frequency",
+                                                        "pathway")
+Table1 <- kable(compiled_binding_hfrq_plrank, 
+      caption = "Top bound proteins") %>% 
+  kable_styling() %>% add_header_above(c("Top Enriched Bound Proteins" = 5), 
+                                       font_size = 18)
+
 ##Table2 = highest frequency proteins bound that have at least one duplicate
 ## + proteasome proteins
-rownames(Compiled_duplicates_unique) <- NULL
-grid.newpage()
-Table2 <- grid.table(Compiled_duplicates_unique[1:20,1:4],)
+compiled_duplicates_unique_mindup_plrank <- Compiled_duplicates_unique[1:20 ,1:4]
+compiled_duplicates_unique_mindup_plrank <- 
+  add_column(compiled_duplicates_unique_mindup_plrank, 1:20, .before = "gene")
+colnames(compiled_duplicates_unique_mindup_plrank) <- c("rank", "gene", 
+                                                                         "family", "frequency",
+                                                                         "pathway")
+Table2 <- kable(compiled_duplicates_unique_mindup_plrank, 
+      caption = "Top bound proteins in at least two pathways") %>% 
+  kable_styling() %>% add_header_above(c("Top Enriched Bound Proteins in 2 or more Pathways" = 5), 
+                                       font_size = 18)
+
 ##Table3 = highest frequency proteins bound that have at least one duplicate 
 ## - proteasome proteins, because most bound to proteosome related proteins are likely
 ## just being degraded
-rownames(Compiled_duplicates_unique_noproteosome) <- NULL
-grid.newpage()
-Table3 <- plot.new(grid.table(Compiled_duplicates_unique_noproteosome[1:20,1:4]))
+compiled_duplicates_noproteosome_minusduplicates_plusrank <- Compiled_duplicates_unique_noproteosome[,1:4]
+compiled_duplicates_noproteosome_minusduplicates_plusrank <- 
+  add_column(compiled_duplicates_noproteosome_minusduplicates_plusrank, 1:21, .before = "gene")
+colnames(compiled_duplicates_noproteosome_minusduplicates_plusrank) <- c("rank", "gene", 
+                                                                         "family", "frequency",
+                                                                         "pathway")
+Table3 <- kable(compiled_duplicates_noproteosome_minusduplicates_plusrank, 
+      caption = "Top bound proteins excluding proteasome bound proteins") %>% 
+  kable_styling() %>% add_header_above(c("Top Enriched Duplicate Proteins" = 5), font_size = 18)
 
 
 ##FINAL FIGURES
 ##"figure1", "figure2", "figure3", "figure4"
 ##"Table1", "Table2", "Table3"
-
-compiled_duplicates_noproteosome_minusduplicates_plusrank <- Compiled_duplicates_unique_noproteosome[,1:4]
-
-compiled_duplicates_noproteosome_minusduplicates_plusrank <- 
-  add_column(compiled_duplicates_noproteosome_minusduplicates_plusrank, 1:21, .before = "gene")
-
-colnames(compiled_duplicates_noproteosome_minusduplicates_plusrank) <- c("rank", "gene", "family", "frequency", "pathway")
-
-kable(compiled_duplicates_noproteosome_minusduplicates_plusrank, 
-      caption = "Top bound proteins excluding proteasome bound proteins") %>% 
-  kable_styling() %>% add_header_above(c("Top Enriched Duplicate Proteins" = 5), font_size = 18)
+##Compile tables, remove row names##
+##Table1 = highest frequency unique bound proteins
