@@ -526,6 +526,7 @@ library(data.table)
 ##Table1 = highest frequency unique bound proteins
 
 compiled_binding_hfrq_plrank <- compiled_binding_hfrq[1:20 ,1:4]
+rownames(compiled_binding_hfrq_plrank) <- NULL
 compiled_binding_hfrq_plrank <- 
   add_column(compiled_binding_hfrq_plrank, 1:20, .before = "gene")
 colnames(compiled_binding_hfrq_plrank) <- c("rank", "gene", 
@@ -533,12 +534,13 @@ colnames(compiled_binding_hfrq_plrank) <- c("rank", "gene",
                                                         "pathway")
 Table1 <- kable(compiled_binding_hfrq_plrank, 
       caption = "Top bound proteins") %>% 
-  kable_styling() %>% add_header_above(c("Top Enriched Bound Proteins" = 5), 
+  kable_styling() %>% add_header_above(c("Top Bound Proteins" = 5), 
                                        font_size = 18)
 
 ##Table2 = highest frequency proteins bound that have at least one duplicate
 ## + proteasome proteins
 compiled_duplicates_unique_mindup_plrank <- Compiled_duplicates_unique[1:20 ,1:4]
+row.names(compiled_duplicates_unique_mindup_plrank) <- NULL
 compiled_duplicates_unique_mindup_plrank <- 
   add_column(compiled_duplicates_unique_mindup_plrank, 1:20, .before = "gene")
 colnames(compiled_duplicates_unique_mindup_plrank) <- c("rank", "gene", 
@@ -546,21 +548,23 @@ colnames(compiled_duplicates_unique_mindup_plrank) <- c("rank", "gene",
                                                                          "pathway")
 Table2 <- kable(compiled_duplicates_unique_mindup_plrank, 
       caption = "Top bound proteins in at least two pathways") %>% 
-  kable_styling() %>% add_header_above(c("Top Enriched Bound Proteins in 2 or more Pathways" = 5), 
+  kable_styling() %>% add_header_above(c("Top Bound Proteins in 2 or more Pathways" = 5), 
                                        font_size = 18)
 
 ##Table3 = highest frequency proteins bound that have at least one duplicate 
 ## - proteasome proteins, because most bound to proteosome related proteins are likely
 ## just being degraded
-compiled_duplicates_noproteosome_minusduplicates_plusrank <- Compiled_duplicates_unique_noproteosome[,1:4]
 compiled_duplicates_noproteosome_minusduplicates_plusrank <- 
-  add_column(compiled_duplicates_noproteosome_minusduplicates_plusrank, 1:21, .before = "gene")
+  Compiled_duplicates_unique_noproteosome[1:20,1:4]
+compiled_duplicates_noproteosome_minusduplicates_plusrank <- 
+  add_column(compiled_duplicates_noproteosome_minusduplicates_plusrank, 1:20, .before = "gene")
 colnames(compiled_duplicates_noproteosome_minusduplicates_plusrank) <- c("rank", "gene", 
                                                                          "family", "frequency",
                                                                          "pathway")
 Table3 <- kable(compiled_duplicates_noproteosome_minusduplicates_plusrank, 
       caption = "Top bound proteins excluding proteasome bound proteins") %>% 
-  kable_styling() %>% add_header_above(c("Top Enriched Duplicate Proteins" = 5), font_size = 18)
+  kable_styling() %>% add_header_above(c("Top Bound Proteins in 2 or more Pathways
+                                         (Excluding Proteasome)" = 5), font_size = 18)
 
 Table1
 Table2
