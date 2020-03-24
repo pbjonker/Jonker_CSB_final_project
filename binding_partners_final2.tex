@@ -1,0 +1,837 @@
+\documentclass[]{article}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\else % if luatex or xelatex
+  \ifxetex
+    \usepackage{mathspec}
+  \else
+    \usepackage{fontspec}
+  \fi
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+\hypersetup{unicode=true,
+            pdftitle={binding\_partners\_final2.R},
+            pdfauthor={patrickjonker},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx,grffile}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+% Redefines (sub)paragraphs to behave more like sections
+\ifx\paragraph\undefined\else
+\let\oldparagraph\paragraph
+\renewcommand{\paragraph}[1]{\oldparagraph{#1}\mbox{}}
+\fi
+\ifx\subparagraph\undefined\else
+\let\oldsubparagraph\subparagraph
+\renewcommand{\subparagraph}[1]{\oldsubparagraph{#1}\mbox{}}
+\fi
+
+%%% Use protect on footnotes to avoid problems with footnotes in titles
+\let\rmarkdownfootnote\footnote%
+\def\footnote{\protect\rmarkdownfootnote}
+
+%%% Change title format to be more compact
+\usepackage{titling}
+
+% Create subtitle command for use in maketitle
+\providecommand{\subtitle}[1]{
+  \posttitle{
+    \begin{center}\large#1\end{center}
+    }
+}
+
+\setlength{\droptitle}{-2em}
+
+  \title{binding\_partners\_final2.R}
+    \pretitle{\vspace{\droptitle}\centering\huge}
+  \posttitle{\par}
+    \author{patrickjonker}
+    \preauthor{\centering\large\emph}
+  \postauthor{\par}
+      \predate{\centering\large\emph}
+  \postdate{\par}
+    \date{2020-03-20}
+
+
+\begin{document}
+\maketitle
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##Description of the project}
+
+\CommentTok{##I am rotating in a Cancer Biology lab that studies the protein Calreticulin (CALR). }
+\CommentTok{##We see that mutant calreticulin drives a cancer phenotype in myeloid cells.}
+\CommentTok{##We currently have proteomics data showing all of the proteins mutant calreticulin binds }
+\CommentTok{##in the cell (which is a lot of proteins), but have done nothing with it. The code below, as well}
+\CommentTok{##as code run prior (in python) attempts to take those data and overlap them with 15 datasets}
+\CommentTok{##identifying genes in different pathways. This way, by the end of this exercise we will have}
+\CommentTok{##novel information concerning which proteins mutant calreticulin is binding. }
+\CommentTok{##The goals of this project include producing multiple graphs summarizing my findings, as well}
+\CommentTok{##as a few summative tables indicating key genes (and their protein products) whose}
+\CommentTok{##functions are potentially altered due to mutant calreticulin binding. A general note : most of}
+\CommentTok{##the code below was run multiple times--once for each data set. I have tried to group these }
+\CommentTok{##repeated bits of code clearly, so that you can read one line, get the picture, and move on.}
+
+
+\KeywordTok{library}\NormalTok{(tidyr)}
+\KeywordTok{library}\NormalTok{(tibble)}
+\KeywordTok{library}\NormalTok{(ggplot2)}
+\KeywordTok{library}\NormalTok{(Stack)}
+\KeywordTok{library}\NormalTok{(dplyr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'dplyr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:stats':
+## 
+##     filter, lag
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{## first find upr gene overlap data (below)}
+\KeywordTok{setwd}\NormalTok{(}\StringTok{"~/Documents/Graduate_School/Research/Elf_Research/Binding_Partners"}\NormalTok{)}
+\NormalTok{binding_partners <-}\StringTok{ }\KeywordTok{read.delim}\NormalTok{(}\StringTok{"binding_partners.txt"}\NormalTok{)}
+\KeywordTok{length}\NormalTok{(binding_partners)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 12
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{View}\NormalTok{(binding_partners)}
+\NormalTok{upr_proteins <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{'upr_proteins.csv'}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(upr_proteins)}
+\NormalTok{v1 <-}\StringTok{ }\NormalTok{upr_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{v2 <-}\StringTok{ }\NormalTok{binding_partners}\OperatorTok{$}\NormalTok{gene}
+\NormalTok{upr_overlay <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v1, v2)}
+\CommentTok{##upr gene overlap data end}
+
+
+
+\CommentTok{##NFkB signaling protein overlap}
+\NormalTok{NFkB_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"NFkB_proteins.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{NFkB_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(NFkB_raw)}
+\KeywordTok{view}\NormalTok{(NFkB_proteins)}
+\NormalTok{NFkB_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(NFkB_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v3 <-}\StringTok{ }\NormalTok{NFkB_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{NFkB_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v3)}
+\KeywordTok{view}\NormalTok{(NFkB_overlap)}
+\CommentTok{##NFkB overlap data ends}
+
+
+
+
+\CommentTok{##Amino Acid transporter overlap}
+\NormalTok{AATransporter_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"AATransporter_proteins.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(AATransporter_raw)}
+\NormalTok{AATransporter_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(AATransporter_raw)}
+\KeywordTok{view}\NormalTok{(AATransporter_proteins)}
+\NormalTok{AATransporter_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(AATransporter_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v4 <-}\StringTok{ }\NormalTok{AATransporter_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{AATransporter_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v4)}
+\KeywordTok{view}\NormalTok{(AATransporter_overlap)}
+\CommentTok{##Amino Acid transporter overlap end}
+
+
+
+\CommentTok{##Antigen processing}
+\NormalTok{Antigen_processing_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"Antigen_processing_proteins.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(Antigen_processing_raw)}
+\NormalTok{Antigen_processing_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(Antigen_processing_raw)}
+\KeywordTok{view}\NormalTok{(Antigen_processing_proteins)}
+\NormalTok{Antigen_processing_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(Antigen_processing_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v5 <-}\StringTok{ }\NormalTok{Antigen_processing_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{Antigen_processing_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v5)}
+\KeywordTok{view}\NormalTok{(Antigen_processing_overlap)}
+\CommentTok{##antigen processing end}
+
+
+
+
+\CommentTok{##Apoptosis proteins start}
+\NormalTok{Apoptosis_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"Apoptosis_proteins.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(Apoptosis_raw)}
+\NormalTok{Apoptosis_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(Apoptosis_raw)}
+\KeywordTok{view}\NormalTok{(Apoptosis_proteins)}
+\NormalTok{Apoptosis_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(Apoptosis_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v6 <-}\StringTok{ }\NormalTok{Apoptosis_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{Apoptosis_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v6)}
+\KeywordTok{view}\NormalTok{(Apoptosis_overlap)}
+\CommentTok{##Apoptosis end}
+
+
+
+
+\CommentTok{##}
+\NormalTok{Protein_folding_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"Protein_folding.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(Protein_folding_raw)}
+\NormalTok{Protein_folding <-}\StringTok{ }\KeywordTok{t}\NormalTok{(Protein_folding_raw)}
+\KeywordTok{view}\NormalTok{(Protein_folding)}
+\NormalTok{Protein_folding <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(Protein_folding)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v7 <-}\StringTok{ }\NormalTok{Protein_folding}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{Protein_folding_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v7)}
+\KeywordTok{view}\NormalTok{(Protein_folding_overlap)}
+\CommentTok{##}
+
+
+
+
+
+\CommentTok{##PD1 proteins}
+\NormalTok{PD1_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"PD1_proteins.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(PD1_raw)}
+\NormalTok{PD1_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(PD1_raw)}
+\KeywordTok{view}\NormalTok{(PD1_proteins)}
+\NormalTok{PD1_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(PD1_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v8 <-}\StringTok{ }\NormalTok{PD1_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{PD1_protein_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v8)}
+\KeywordTok{view}\NormalTok{(PD1_protein_overlap)}
+\CommentTok{##end}
+
+
+
+
+
+\CommentTok{##p53 independent DNA damage/repair proteins}
+\NormalTok{p53_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"p53_indep_DNA_damage.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(p53_raw)}
+\NormalTok{p53_indep_DNA_damage <-}\StringTok{ }\KeywordTok{t}\NormalTok{(p53_raw)}
+\KeywordTok{view}\NormalTok{(p53_indep_DNA_damage)}
+\NormalTok{p53_indep_DNA_damage<-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(p53_indep_DNA_damage)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v9 <-}\StringTok{ }\NormalTok{p53_indep_DNA_damage}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{p53_indep_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v9)}
+\KeywordTok{view}\NormalTok{(p53_indep_overlap)}
+\CommentTok{##end}
+
+
+
+
+
+\CommentTok{##nucleosome proteins}
+\NormalTok{nucleosome_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"nucleosome_proteins.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(nucleosome_raw)}
+\NormalTok{nucleosome_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(nucleosome_raw)}
+\KeywordTok{view}\NormalTok{(nucleosome_proteins)}
+\NormalTok{nucleosome_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(nucleosome_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v10 <-}\StringTok{ }\NormalTok{nucleosome_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{nucleosome_proteins_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v10)}
+\KeywordTok{view}\NormalTok{(nucleosome_proteins_overlap)}
+\CommentTok{##nucleosome proteins end}
+
+
+
+
+
+\CommentTok{##}
+\NormalTok{mTOR_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"mTOR_proteins.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(mTOR_raw)}
+\NormalTok{mTOR_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(mTOR_raw)}
+\KeywordTok{view}\NormalTok{(mTOR_proteins)}
+\NormalTok{mTOR_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(mTOR_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v11 <-}\StringTok{ }\NormalTok{mTOR_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{mTOR_proteins_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v11)}
+\KeywordTok{view}\NormalTok{(mTOR_proteins_overlap)}
+\CommentTok{##}
+
+
+
+
+
+
+\CommentTok{##Mitotic telophase/cytokenesis proteins}
+\NormalTok{Mitotic_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"Mitotic_proteins.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(Mitotic_raw)}
+\NormalTok{Mitotic_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(Mitotic_raw)}
+\KeywordTok{view}\NormalTok{(Mitotic_proteins)}
+\NormalTok{Mitotic_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(Mitotic_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v12 <-}\StringTok{ }\NormalTok{Mitotic_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{Mitotic_proteins_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v12)}
+\KeywordTok{view}\NormalTok{(Mitotic_proteins_overlap)}
+\CommentTok{##end}
+
+
+
+
+
+
+\CommentTok{##Amino Acid Metabolism}
+\NormalTok{AAMetabolism_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"AAMetabolism.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(AAMetabolism_raw)}
+\NormalTok{AAMetabolism_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(AAMetabolism_raw)}
+\KeywordTok{view}\NormalTok{(AAMetabolism_proteins)}
+\NormalTok{AAMetabolism_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(AAMetabolism_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v13 <-}\StringTok{ }\NormalTok{AAMetabolism_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{AAMetabolism_proteins_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v13)}
+\KeywordTok{view}\NormalTok{(AAMetabolism_proteins_overlap)}
+\CommentTok{##End}
+
+
+
+
+\CommentTok{##Glycolysis proteins}
+\NormalTok{Glycolysis_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"Glycolysis_proteins.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(Glycolysis_raw)}
+\NormalTok{Glycolysis_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(Glycolysis_raw)}
+\KeywordTok{view}\NormalTok{(Glycolysis_proteins)}
+\NormalTok{Glycolysis_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(Glycolysis_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v14 <-}\StringTok{ }\NormalTok{Glycolysis_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{Glycolysis_proteins_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v14)}
+\KeywordTok{view}\NormalTok{(Glycolysis_proteins_overlap)}
+\CommentTok{##End}
+
+
+
+
+\CommentTok{##TCR signaling proteins}
+\NormalTok{TCR_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"TCR_signaling.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(TCR_raw)}
+\NormalTok{TCR_signaling_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(TCR_raw)}
+\KeywordTok{view}\NormalTok{(TCR_signaling_proteins)}
+\NormalTok{TCR_signaling_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(TCR_signaling_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v15 <-}\StringTok{ }\NormalTok{TCR_signaling_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{TCR_proteins_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v15)}
+\KeywordTok{view}\NormalTok{(TCR_proteins_overlap)}
+\CommentTok{##}
+
+\CommentTok{##ATF4 binding proteins}
+\NormalTok{ATF4_raw <-}\StringTok{ }\KeywordTok{read.csv}\NormalTok{(}\StringTok{"ATF4_binding.csv"}\NormalTok{, }\DataTypeTok{header =} \OtherTok{FALSE}\NormalTok{)}
+\KeywordTok{view}\NormalTok{(ATF4_raw)}
+\NormalTok{ATF4_binding_proteins <-}\StringTok{ }\KeywordTok{t}\NormalTok{(ATF4_raw)}
+\KeywordTok{view}\NormalTok{(ATF4_binding_proteins)}
+\NormalTok{ATF4_binding_proteins <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(ATF4_binding_proteins)}
+\CommentTok{##change data from atomic list to recursive using as.data.frame function}
+\NormalTok{v16 <-}\StringTok{ }\NormalTok{ATF4_binding_proteins}\OperatorTok{$}\NormalTok{V1}
+\NormalTok{ATF4_binding_overlap <-}\StringTok{ }\KeywordTok{intersect}\NormalTok{(v2, v16)}
+\KeywordTok{view}\NormalTok{(ATF4_binding_overlap)}
+\CommentTok{##}
+
+\CommentTok{##Match common genes with values to get frequencies by finding their place in the}
+\CommentTok{##data frame using the "match" function}
+
+
+\CommentTok{#TCR}
+\NormalTok{TCR_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(TCR_proteins_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{TCR_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{((binding_partners}\OperatorTok{$}\NormalTok{frequency[TCR_numbers]))}
+
+\CommentTok{#Amino acid transport}
+\NormalTok{AATransport_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(AATransporter_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{AATransport_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[AATransport_numbers])}
+
+\CommentTok{#Amino acid metabolism}
+\NormalTok{AAMetabolism_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(AAMetabolism_proteins_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{AAMetabolism_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[AAMetabolism_numbers])}
+
+\CommentTok{#Antigen processing}
+\NormalTok{Antigen_processing_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(Antigen_processing_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{Antigen_processing_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[Antigen_processing_numbers])}
+
+\CommentTok{#Apoptosis}
+\NormalTok{Apoptosis_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(Apoptosis_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{Apoptosis_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[Apoptosis_numbers])}
+
+\CommentTok{#ATF4}
+\NormalTok{ATF4_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(ATF4_binding_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{ATF4_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[ATF4_numbers])}
+
+\CommentTok{#Glycolysis}
+\NormalTok{Glycolysis_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(Glycolysis_proteins_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{Glycolysis_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[Glycolysis_numbers])}
+
+\CommentTok{#Mitotic proteins}
+\NormalTok{Mitotic_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(Mitotic_proteins_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{Mitotic_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[Mitotic_numbers])}
+
+\CommentTok{#mTOR }
+\NormalTok{mTOR_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(mTOR_proteins_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{mTOR_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[mTOR_numbers])}
+
+\CommentTok{#NFkB}
+\NormalTok{NFkB_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(NFkB_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{NFkB_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[NFkB_numbers])}
+
+\CommentTok{#nucleosome formation proteins}
+\NormalTok{nucleosome_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(nucleosome_proteins_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{nucleosome_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[nucleosome_numbers])}
+
+\CommentTok{#p53 independent DNA Damage and repair}
+\NormalTok{p53_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(p53_indep_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{p53_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[p53_numbers])}
+
+\CommentTok{#PD1 signaling proteins}
+\NormalTok{PD1_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(PD1_protein_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{PD1_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[PD1_numbers])}
+
+\CommentTok{#protein folding proteins}
+\NormalTok{Protein_folding_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(Protein_folding_overlap, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{Protein_folding_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[Protein_folding_numbers])}
+
+\CommentTok{#UPR proteins (unfolded protein response)}
+\NormalTok{UPR_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(upr_overlay, binding_partners}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{UPR_frequency <-}\StringTok{ }\KeywordTok{mean}\NormalTok{(binding_partners}\OperatorTok{$}\NormalTok{frequency[UPR_numbers])}
+\CommentTok{#done calculating average frequency of each pathway analyzed}
+
+
+
+
+\CommentTok{##Calculate the percent of each pathway bound by mutant CALR by dividing the number of}
+\CommentTok{## proteins bound by the total number of proteins in the pathway}
+
+\NormalTok{AAMetabolism_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(AAMetabolism_proteins_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(AAMetabolism_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{AATransport_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(AATransporter_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(AATransporter_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{Antigen_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(Antigen_processing_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(Antigen_processing_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{Apoptosis_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(Apoptosis_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(Apoptosis_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{ATF4_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(ATF4_binding_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(ATF4_binding_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{Mitotic_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(Mitotic_proteins_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(Mitotic_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{mTOR_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(mTOR_proteins_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(mTOR_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{NFkB_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(NFkB_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(NFkB_proteins}\OperatorTok{$}\NormalTok{NFkB_proteins)}
+\NormalTok{nucleosome_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(nucleosome_proteins_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(nucleosome_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{p53_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(p53_indep_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(p53_indep_DNA_damage}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{PD1_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(PD1_protein_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(PD1_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{Protein_folding_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(Protein_folding_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(Protein_folding}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{TCR_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(TCR_proteins_overlap)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(TCR_signaling_proteins}\OperatorTok{$}\NormalTok{V1)}
+\NormalTok{UPR_ratio <-}\StringTok{ }\KeywordTok{length}\NormalTok{(upr_overlay)}\OperatorTok{/}\KeywordTok{length}\NormalTok{(upr_proteins}\OperatorTok{$}\NormalTok{V1)}
+\CommentTok{##}
+
+
+\CommentTok{##compile each data set into overlap database that contains number of proteins##}
+\CommentTok{##bound as well as the average frequencies (fold binding enrichment compared to wild type)}
+\CommentTok{##of those select genes##}
+
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{data.frame}\NormalTok{(}\StringTok{"Pathway"}\NormalTok{, }\StringTok{"Number of Genes"}\NormalTok{, }\StringTok{"Frequency"}\NormalTok{, }\StringTok{"Ratio"}\NormalTok{,}\DataTypeTok{stringsAsFactors =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "Amino Acid Metabolism"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(AAMetabolism_proteins_overlap),}
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{AAMetabolism_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{AAMetabolism_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "Amino Acid Transporters"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(AATransporter_overlap), }
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{AATransport_frequency,}\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{AATransport_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "Antigen processing"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(Antigen_processing_overlap), }
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{Antigen_processing_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{Antigen_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "Apoptosis"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(Apoptosis_overlap), }
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{Apoptosis_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{Apoptosis_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "ATF4 binding"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(ATF4_binding_overlap), }
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{ATF4_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{ATF4_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "Mitotic telophase/cytokenesis"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(Mitotic_proteins_overlap),}
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{Mitotic_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{Mitotic_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "mTOR"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(mTOR_proteins_overlap), }
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{mTOR_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{mTOR_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "NFkB"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(NFkB_overlap), }
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{NFkB_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{NFkB_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "Nucleosome"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(nucleosome_proteins_overlap), }
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{nucleosome_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{nucleosome_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "p53 independent DNA damage"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(p53_indep_overlap), }
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{p53_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{p53_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "PD1 signaling"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(PD1_protein_overlap),}
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{PD1_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{PD1_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "Protein folding"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(Protein_folding_overlap),}
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{Protein_folding_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{Protein_folding_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "TCR signaling"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(TCR_proteins_overlap), }
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{TCR_frequency, }\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{TCR_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\KeywordTok{add_row}\NormalTok{(overlap, }\StringTok{"X.Pathway."}\NormalTok{ =}\StringTok{ "UPR"}\NormalTok{,}
+                   \StringTok{"X.Number.of.Genes."}\NormalTok{ =}\StringTok{ }\KeywordTok{length}\NormalTok{(upr_overlay),}
+                   \StringTok{"X.Frequency."}\NormalTok{ =}\StringTok{ }\NormalTok{UPR_frequency,}\StringTok{"X.Ratio."}\NormalTok{ =}\StringTok{ }\NormalTok{UPR_ratio)}
+\NormalTok{overlap <-}\StringTok{ }\NormalTok{overlap[}\KeywordTok{c}\NormalTok{(}\OperatorTok{-}\DecValTok{1}\NormalTok{),]}
+
+
+\CommentTok{##code below makes bar graph for number of proteins bound for each pathway##}
+\NormalTok{Proteins_bound <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(overlap}\OperatorTok{$}\NormalTok{X.Number.of.Genes.)}
+\NormalTok{Pathway <-}\StringTok{ }\NormalTok{overlap}\OperatorTok{$}\NormalTok{X.Pathway.}
+\NormalTok{figure1 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ overlap, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Pathway, }\DataTypeTok{y =}\NormalTok{ Proteins_bound)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_col}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Helvetica"}\NormalTok{, }
+                                                                 \DataTypeTok{face =} \StringTok{"bold"}\NormalTok{, }
+                                                                 \DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{), }
+                                       \DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{35}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{size =} \DecValTok{8}\NormalTok{, }
+                                                                  \DataTypeTok{face =} \StringTok{"bold"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Mutant CALR Bound Proteins per Pathway"}\NormalTok{)}
+\NormalTok{figure1}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-1.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##bar graph for average binding enhancement (frequency) for each pathway##}
+\NormalTok{Binding_enhancement <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(overlap}\OperatorTok{$}\NormalTok{X.Frequency.)}
+\NormalTok{figure2 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ overlap, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Pathway, }\DataTypeTok{y =}\NormalTok{ Binding_enhancement)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_col}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Helvetica"}\NormalTok{, }\DataTypeTok{face =} \StringTok{"bold"}\NormalTok{, }
+                                                                 \DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{),}
+                                       \DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{35}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{size =} \DecValTok{8}\NormalTok{, }\DataTypeTok{face =} \StringTok{"bold"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Average Mutant CALR Binding frequency per Pathway"}\NormalTok{)}
+\NormalTok{figure2}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 1 rows containing missing values (position_stack).
+\end{verbatim}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-2.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##Bar graph showing ratio of proteins bound/ total proteins in pathway##}
+\NormalTok{Ratio_of_proteins_bound <-}\StringTok{ }\KeywordTok{as.numeric}\NormalTok{(overlap}\OperatorTok{$}\NormalTok{X.Ratio.)}
+\NormalTok{figure3 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ overlap, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Pathway, }\DataTypeTok{y =}\NormalTok{ Ratio_of_proteins_bound)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{geom_col}\NormalTok{(}\DataTypeTok{fill =} \StringTok{"steelblue"}\NormalTok{) }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Helvetica"}\NormalTok{, }\DataTypeTok{face =} \StringTok{"bold"}\NormalTok{, }
+                                                                 \DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{),}
+                                       \DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{45}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }
+                                                                  \DataTypeTok{size =} \DecValTok{8}\NormalTok{, }\DataTypeTok{face =} \StringTok{"bold"}\NormalTok{)) }\OperatorTok{+}\StringTok{ }
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Percent of Pathway bound by mutant CALR"}\NormalTok{)}
+\NormalTok{figure3}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-3.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##dot plot comparing frequency of binding to number of proteins bound}
+
+\KeywordTok{library}\NormalTok{(ggpubr)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Loading required package: magrittr
+\end{verbatim}
+
+\begin{verbatim}
+## 
+## Attaching package: 'magrittr'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:tidyr':
+## 
+##     extract
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{figure4 <-}\StringTok{ }\KeywordTok{ggplot}\NormalTok{(}\DataTypeTok{data =}\NormalTok{ overlap, }\KeywordTok{aes}\NormalTok{(}\DataTypeTok{x =}\NormalTok{ Proteins_bound, }\DataTypeTok{y =}\NormalTok{ Binding_enhancement)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{geom_point}\NormalTok{() }\OperatorTok{+}\StringTok{ }\KeywordTok{theme}\NormalTok{(}\DataTypeTok{plot.title =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{family =} \StringTok{"Helvetica"}\NormalTok{, }
+                                                 \DataTypeTok{face =} \StringTok{"bold"}\NormalTok{, }\DataTypeTok{hjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{size =} \DecValTok{16}\NormalTok{),}
+                       \DataTypeTok{axis.text.x =} \KeywordTok{element_text}\NormalTok{(}\DataTypeTok{angle =} \DecValTok{35}\NormalTok{, }\DataTypeTok{vjust =} \FloatTok{0.5}\NormalTok{, }\DataTypeTok{size =} \DecValTok{8}\NormalTok{, }\DataTypeTok{face =} \StringTok{"bold"}\NormalTok{)) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{stat_cor}\NormalTok{(}\DataTypeTok{method =} \StringTok{"pearson"}\NormalTok{, }\DataTypeTok{label.x =} \DecValTok{28}\NormalTok{, }\DataTypeTok{label.y =} \DecValTok{20}\NormalTok{) }\OperatorTok{+}
+\StringTok{  }\KeywordTok{ggtitle}\NormalTok{(}\StringTok{"Bound Proteins vs. Binding enhancement"}\NormalTok{)}
+\NormalTok{figure4}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Warning: Removed 1 rows containing non-finite values (stat_cor).
+\end{verbatim}
+
+\begin{verbatim}
+## Warning: Removed 1 rows containing missing values (geom_point).
+\end{verbatim}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-4.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##this figure is just for fun, but proves there is very little correlation between the number}
+\CommentTok{## of proteins bound and the strength with which they bind##}
+
+
+\CommentTok{##compile all bound proteins from these pathways in order to identify proteins that appear in }
+\CommentTok{##multiple pathways. First section pulls entire row of data from the original binding_partners}
+\CommentTok{##dataset, while the second part stacks each pull to form a complete data frame}
+\NormalTok{binding_partners1 <-}\StringTok{ }\NormalTok{binding_partners[,}\DecValTok{1}\OperatorTok{:}\DecValTok{3}\NormalTok{]}
+\NormalTok{glycolysis_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[Glycolysis_numbers,]}
+\NormalTok{glycolysis_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{] =}\StringTok{ 'glycolysis'}
+\NormalTok{AAMetabolism_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[AAMetabolism_numbers,] }
+\NormalTok{AAMetabolism_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{27}\NormalTok{] =}\StringTok{ "amino acid metabolism"}
+\NormalTok{AATransport_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[AATransport_numbers,]}
+\NormalTok{AATransport_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{7}\NormalTok{] =}\StringTok{ "amino acid transporters"}
+\NormalTok{Antigen_processing_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[Antigen_processing_numbers,]}
+\NormalTok{Antigen_processing_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{7}\NormalTok{] =}\StringTok{ "antigen processing"}
+\NormalTok{Apoptosis_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[Apoptosis_numbers,]}
+\NormalTok{Apoptosis_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{44}\NormalTok{] =}\StringTok{ "Apoptosis"}
+\NormalTok{ATF4_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[ATF4_numbers,]}
+\NormalTok{ATF4_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{6}\NormalTok{] =}\StringTok{ "ATF4 binding"}
+\NormalTok{mTOR_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[mTOR_numbers,]}
+\NormalTok{mTOR_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{] =}\StringTok{ "mTOR signaling"}
+\NormalTok{NFkB_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[NFkB_numbers,]}
+\NormalTok{NFkB_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{26}\NormalTok{] =}\StringTok{ "NFkB signaling"}
+\NormalTok{nucleosome_proteins_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[nucleosome_numbers,]}
+\NormalTok{nucleosome_proteins_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{] =}\StringTok{ "Nucleosome formation"}
+\NormalTok{p53_indep_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[p53_numbers,]}
+\NormalTok{p53_indep_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{7}\NormalTok{] =}\StringTok{ "p53 independent DNA damage and repair"}
+\NormalTok{PD1_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[PD1_numbers,]}
+\NormalTok{PD1_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{2}\NormalTok{] =}\StringTok{ "PD1 signaling"}
+\NormalTok{protein_folding_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[Protein_folding_numbers,]}
+\NormalTok{protein_folding_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{14}\NormalTok{] =}\StringTok{ "protein folding proteins"}
+\NormalTok{TCR_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[TCR_numbers,]}
+\NormalTok{TCR_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{12}\NormalTok{] =}\StringTok{ "TCR signaling"}
+\NormalTok{UPR_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{binding_partners1[UPR_numbers,]}
+\NormalTok{UPR_}\DecValTok{1}\OperatorTok{$}\StringTok{"pathway"}\NormalTok{[}\DecValTok{1}\OperatorTok{:}\DecValTok{17}\NormalTok{] =}\StringTok{ "UPR numbers"}
+
+\CommentTok{##compile each protein using STACK function}
+\NormalTok{a <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(AAMetabolism_}\DecValTok{1}\NormalTok{, AATransport_}\DecValTok{1}\NormalTok{)}
+\NormalTok{b <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(a, Antigen_processing_}\DecValTok{1}\NormalTok{)}
+\NormalTok{c <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(b, glycolysis_}\DecValTok{1}\NormalTok{)}
+\NormalTok{d <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(c, Apoptosis_}\DecValTok{1}\NormalTok{)}
+\NormalTok{e <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(d, ATF4_}\DecValTok{1}\NormalTok{)}
+\NormalTok{f <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(e, mTOR_}\DecValTok{1}\NormalTok{)}
+\NormalTok{g <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(f, NFkB_}\DecValTok{1}\NormalTok{)}
+\NormalTok{h <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(g, nucleosome_proteins_}\DecValTok{1}\NormalTok{)}
+\NormalTok{i <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(h, p53_indep_}\DecValTok{1}\NormalTok{)}
+\NormalTok{j <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(i, PD1_}\DecValTok{1}\NormalTok{)}
+\NormalTok{k <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(j, protein_folding_}\DecValTok{1}\NormalTok{)}
+\NormalTok{l <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(k, TCR_}\DecValTok{1}\NormalTok{)}
+\NormalTok{Compiled_binding_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{Stack}\NormalTok{(l, UPR_}\DecValTok{1}\NormalTok{)}
+
+\CommentTok{##put them in decreasing order based on frequency}
+\NormalTok{compiled_binding_hfrq <-}\StringTok{ }\NormalTok{Compiled_binding_}\DecValTok{1}\NormalTok{[}\KeywordTok{order}\NormalTok{(Compiled_binding_}\DecValTok{1}\OperatorTok{$}\NormalTok{frequency, }\DataTypeTok{decreasing =} \OtherTok{TRUE}\NormalTok{),]}
+
+\CommentTok{##isolate unique genes}
+\NormalTok{compiled_binding_hfrq_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(}\KeywordTok{unique}\NormalTok{(compiled_binding_hfrq}\OperatorTok{$}\NormalTok{gene), }
+\NormalTok{                                       compiled_binding_hfrq}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+\NormalTok{compiled_binding_hfrq <-}\StringTok{ }\NormalTok{compiled_binding_hfrq[compiled_binding_hfrq_numbers,]}
+
+
+\NormalTok{duplicated_genes <-}\StringTok{ }\NormalTok{Compiled_binding_}\DecValTok{1}\OperatorTok{$}\NormalTok{gene }\OperatorTok{%>%}\StringTok{ }\KeywordTok{duplicated}\NormalTok{()}
+\CommentTok{##note: for each pair of duplicates, one is printed true and the other false}
+\NormalTok{duplicated_genes <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(duplicated_genes)}
+\NormalTok{Compiled_binding_}\DecValTok{1}\OperatorTok{$}\NormalTok{duplicates[}\DecValTok{1}\OperatorTok{:}\DecValTok{251}\NormalTok{] =}\StringTok{ }\NormalTok{duplicated_genes}\OperatorTok{$}\NormalTok{duplicated_genes}
+\NormalTok{Compiled_binding_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\KeywordTok{as.data.frame}\NormalTok{(}\KeywordTok{lapply}\NormalTok{(Compiled_binding_}\DecValTok{1}\NormalTok{, unlist))}
+\NormalTok{Compiled_binding_}\DecValTok{1}\NormalTok{ <-}\StringTok{ }\NormalTok{Compiled_binding_}\DecValTok{1}\NormalTok{[}\KeywordTok{order}\NormalTok{(Compiled_binding_}\DecValTok{1}\OperatorTok{$}\NormalTok{duplicates),]}
+\NormalTok{Compiled_duplicates <-}\StringTok{ }\NormalTok{Compiled_binding_}\DecValTok{1}\NormalTok{[}\DecValTok{152}\OperatorTok{:}\DecValTok{251}\NormalTok{,] }
+\CommentTok{##note: genes with duplicates remaining in this list have multiple duplicates}
+
+\CommentTok{##print tables displaying diplicated genes, highest frequency at the top, lowest at the bottom}
+\NormalTok{Compiled_duplicates_unique <-}\StringTok{ }\NormalTok{Compiled_duplicates[}\KeywordTok{order}\NormalTok{(Compiled_duplicates}\OperatorTok{$}\NormalTok{frequency, }\DataTypeTok{decreasing =} \OtherTok{TRUE}\NormalTok{),]}
+\KeywordTok{view}\NormalTok{(Compiled_duplicates_unique)}
+\NormalTok{unique_numbers <-}\StringTok{ }\KeywordTok{match}\NormalTok{(}\KeywordTok{unique}\NormalTok{(Compiled_duplicates_unique}\OperatorTok{$}\NormalTok{gene), }
+\NormalTok{                        Compiled_duplicates_unique}\OperatorTok{$}\NormalTok{gene, }\DataTypeTok{nomatch =} \OtherTok{FALSE}\NormalTok{)}
+
+\NormalTok{Compiled_duplicates_unique1 <-}\StringTok{ }\NormalTok{Compiled_duplicates_unique[unique_numbers,]}
+\NormalTok{Compiled_duplicates_unique <-}\StringTok{ }\NormalTok{Compiled_duplicates_unique1[}\KeywordTok{order}\NormalTok{(Compiled_duplicates_unique1}\OperatorTok{$}\NormalTok{frequency,}
+                                                                \DataTypeTok{decreasing =} \OtherTok{TRUE}\NormalTok{),]}
+\CommentTok{##make list not including proteosome proteins bc proteosome just means its getting degraded##}
+
+\NormalTok{Compiled_duplicates_unique_noproteosome <-}\StringTok{ }\KeywordTok{filter}\NormalTok{(Compiled_duplicates_unique, family }\OperatorTok{!=}\StringTok{ "Proteasome"}\NormalTok{)}
+
+\CommentTok{##Have figure1,2,3,4 compiled_binding_hfrq (highest frequency genes in binding set), compiled_duplicates_unique }
+\CommentTok{##(list of highest scoring frequency duplicates),}
+\CommentTok{##list of duplicates without proteasome##}
+
+\KeywordTok{library}\NormalTok{(grid)}
+\KeywordTok{library}\NormalTok{(gridExtra)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'gridExtra'
+\end{verbatim}
+
+\begin{verbatim}
+## The following object is masked from 'package:dplyr':
+## 
+##     combine
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{library}\NormalTok{(data.table)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Attaching package: 'data.table'
+\end{verbatim}
+
+\begin{verbatim}
+## The following objects are masked from 'package:dplyr':
+## 
+##     between, first, last
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##Compile tables, remove row names##}
+\CommentTok{##Table1 = highest frequency unique bound proteins}
+\KeywordTok{rownames}\NormalTok{(compiled_binding_hfrq) <-}\StringTok{ }\OtherTok{NULL}
+\KeywordTok{grid.newpage}\NormalTok{()}
+\NormalTok{Table1 <-}\StringTok{ }\KeywordTok{grid.table}\NormalTok{(compiled_binding_hfrq[}\DecValTok{1}\OperatorTok{:}\DecValTok{20}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-5.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##Table2 = highest frequency proteins bound that have at least one duplicate}
+\CommentTok{## + proteasome proteins}
+\KeywordTok{rownames}\NormalTok{(Compiled_duplicates_unique) <-}\StringTok{ }\OtherTok{NULL}
+\KeywordTok{grid.newpage}\NormalTok{()}
+\NormalTok{Table2 <-}\StringTok{ }\KeywordTok{grid.table}\NormalTok{(Compiled_duplicates_unique[}\DecValTok{1}\OperatorTok{:}\DecValTok{20}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{],)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-6.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##Table3 = highest frequency proteins bound that have at least one duplicate }
+\CommentTok{## - proteasome proteins, because most bound to proteosome related proteins are likely}
+\CommentTok{## just being degraded}
+\KeywordTok{rownames}\NormalTok{(Compiled_duplicates_unique_noproteosome) <-}\StringTok{ }\OtherTok{NULL}
+\KeywordTok{grid.newpage}\NormalTok{()}
+\NormalTok{Table3 <-}\StringTok{ }\KeywordTok{grid.table}\NormalTok{(Compiled_duplicates_unique_noproteosome[}\DecValTok{1}\OperatorTok{:}\DecValTok{20}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-7.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##TO ACCESS FINAL FIGURES}
+\CommentTok{##run "figure1", "figure2", "figure3", "figure4"}
+\CommentTok{##run these blocks of code individually for each table:}
+\CommentTok{##Table1}
+\KeywordTok{grid.newpage}\NormalTok{()}
+\NormalTok{Table1 <-}\StringTok{ }\KeywordTok{grid.table}\NormalTok{(compiled_binding_hfrq[}\DecValTok{1}\OperatorTok{:}\DecValTok{20}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-8.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##Table2}
+\KeywordTok{grid.newpage}\NormalTok{()}
+\NormalTok{Table2 <-}\StringTok{ }\KeywordTok{grid.table}\NormalTok{(Compiled_duplicates_unique[}\DecValTok{1}\OperatorTok{:}\DecValTok{20}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{],)}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-9.pdf}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{##Table3}
+\KeywordTok{grid.newpage}\NormalTok{()}
+\NormalTok{Table3 <-}\StringTok{ }\KeywordTok{grid.table}\NormalTok{(Compiled_duplicates_unique_noproteosome[}\DecValTok{1}\OperatorTok{:}\DecValTok{20}\NormalTok{,}\DecValTok{1}\OperatorTok{:}\DecValTok{4}\NormalTok{])}
+\end{Highlighting}
+\end{Shaded}
+
+\includegraphics{binding_partners_final2_files/figure-latex/unnamed-chunk-1-10.pdf}
+
+
+\end{document}

@@ -1,6 +1,22 @@
+##Description of the project
+
+##I am rotating in a Cancer Biology lab that studies the protein Calreticulin (CALR). 
+##We see that mutant calreticulin drives a cancer phenotype in myeloid cells.
+##We currently have proteomics data showing all of the proteins mutant calreticulin binds 
+##in the cell (which is a lot of proteins), but have done nothing with it. The code below, as well
+##as code run prior (in python) attempts to take those data and overlap them with 15 datasets
+##identifying genes in different pathways. This way, by the end of this exercise we will have
+##novel information concerning which proteins mutant calreticulin is binding. 
+##The goals of this project include producing multiple graphs summarizing my findings, as well
+##as a few summative tables indicating key genes (and their protein products) whose
+##functions are potentially altered due to mutant calreticulin binding. A general note : most of
+##the code below was run multiple times--once for each data set. I have tried to group these 
+##repeated bits of code clearly, so that you can read one line, get the picture, and move on.
+
+
 library(tidyr)
 library(tibble)
-install.packages("Stack")
+library(ggplot2)
 library(Stack)
 library(dplyr)
 
@@ -22,7 +38,7 @@ upr_overlay <- intersect(v1, v2)
 
 ##NFkB signaling protein overlap
 NFkB_raw <- read.csv("NFkB_proteins.csv", header = FALSE)
-view(NFkB_proteins)
+
 NFkB_proteins <- t(NFkB_raw)
 view(NFkB_proteins)
 NFkB_proteins <- as.data.frame(NFkB_proteins)
@@ -238,45 +254,59 @@ view(ATF4_binding_overlap)
 #TCR
 TCR_numbers <- match(TCR_proteins_overlap, binding_partners$gene, nomatch = FALSE)
 TCR_frequency <- mean((binding_partners$frequency[TCR_numbers]))
+
 #Amino acid transport
 AATransport_numbers <- match(AATransporter_overlap, binding_partners$gene, nomatch = FALSE)
 AATransport_frequency <- mean(binding_partners$frequency[AATransport_numbers])
+
 #Amino acid metabolism
 AAMetabolism_numbers <- match(AAMetabolism_proteins_overlap, binding_partners$gene, nomatch = FALSE)
 AAMetabolism_frequency <- mean(binding_partners$frequency[AAMetabolism_numbers])
+
 #Antigen processing
 Antigen_processing_numbers <- match(Antigen_processing_overlap, binding_partners$gene, nomatch = FALSE)
 Antigen_processing_frequency <- mean(binding_partners$frequency[Antigen_processing_numbers])
+
 #Apoptosis
 Apoptosis_numbers <- match(Apoptosis_overlap, binding_partners$gene, nomatch = FALSE)
 Apoptosis_frequency <- mean(binding_partners$frequency[Apoptosis_numbers])
+
 #ATF4
 ATF4_numbers <- match(ATF4_binding_overlap, binding_partners$gene, nomatch = FALSE)
 ATF4_frequency <- mean(binding_partners$frequency[ATF4_numbers])
+
 #Glycolysis
 Glycolysis_numbers <- match(Glycolysis_proteins_overlap, binding_partners$gene, nomatch = FALSE)
 Glycolysis_frequency <- mean(binding_partners$frequency[Glycolysis_numbers])
+
 #Mitotic proteins
 Mitotic_numbers <- match(Mitotic_proteins_overlap, binding_partners$gene, nomatch = FALSE)
 Mitotic_frequency <- mean(binding_partners$frequency[Mitotic_numbers])
+
 #mTOR 
 mTOR_numbers <- match(mTOR_proteins_overlap, binding_partners$gene, nomatch = FALSE)
 mTOR_frequency <- mean(binding_partners$frequency[mTOR_numbers])
+
 #NFkB
 NFkB_numbers <- match(NFkB_overlap, binding_partners$gene, nomatch = FALSE)
 NFkB_frequency <- mean(binding_partners$frequency[NFkB_numbers])
+
 #nucleosome formation proteins
 nucleosome_numbers <- match(nucleosome_proteins_overlap, binding_partners$gene, nomatch = FALSE)
 nucleosome_frequency <- mean(binding_partners$frequency[nucleosome_numbers])
+
 #p53 independent DNA Damage and repair
 p53_numbers <- match(p53_indep_overlap, binding_partners$gene, nomatch = FALSE)
 p53_frequency <- mean(binding_partners$frequency[p53_numbers])
+
 #PD1 signaling proteins
 PD1_numbers <- match(PD1_protein_overlap, binding_partners$gene, nomatch = FALSE)
 PD1_frequency <- mean(binding_partners$frequency[PD1_numbers])
+
 #protein folding proteins
 Protein_folding_numbers <- match(Protein_folding_overlap, binding_partners$gene, nomatch = FALSE)
 Protein_folding_frequency <- mean(binding_partners$frequency[Protein_folding_numbers])
+
 #UPR proteins (unfolded protein response)
 UPR_numbers <- match(upr_overlay, binding_partners$gene, nomatch = FALSE)
 UPR_frequency <- mean(binding_partners$frequency[UPR_numbers])
@@ -387,7 +417,7 @@ figure3 <- ggplot(data = overlap, aes(x = Pathway, y = Ratio_of_proteins_bound))
 figure3
 
 ##dot plot comparing frequency of binding to number of proteins bound
-install.packages("ggpubr")
+
 library(ggpubr)
 figure4 <- ggplot(data = overlap, aes(x = Proteins_bound, y = Binding_enhancement)) +
   geom_point() + theme(plot.title = element_text(family = "Helvetica", 
@@ -482,7 +512,7 @@ Compiled_duplicates_unique_noproteosome <- filter(Compiled_duplicates_unique, fa
 ##Have figure1,2,3,4 compiled_binding_hfrq (highest frequency genes in binding set), compiled_duplicates_unique 
 ##(list of highest scoring frequency duplicates),
 ##list of duplicates without proteasome##
-install.packages("gridExtra")
+
 library(grid)
 library(gridExtra)
 library(data.table)
@@ -503,19 +533,20 @@ Table2 <- grid.table(Compiled_duplicates_unique[1:20,1:4],)
 ## just being degraded
 rownames(Compiled_duplicates_unique_noproteosome) <- NULL
 grid.newpage()
-Table3 <- grid.table(Compiled_duplicates_unique_noproteosome[1:20,1:4])
+Table3 <- plot.new(grid.table(Compiled_duplicates_unique_noproteosome[1:20,1:4]))
 
 
-##TO ACCESS FINAL FIGURES
-##run "figure1", "figure2", "figure3", "figure4"
-##run these blocks of code individually for each table:
-##Table1
-grid.newpage()
-Table1 <- grid.table(compiled_binding_hfrq[1:20,1:4])
-##Table2
-grid.newpage()
-Table2 <- grid.table(Compiled_duplicates_unique[1:20,1:4],)
-##Table3
-grid.newpage()
-Table3 <- grid.table(Compiled_duplicates_unique_noproteosome[1:20,1:4])
+##FINAL FIGURES
+##"figure1", "figure2", "figure3", "figure4"
+##"Table1", "Table2", "Table3"
 
+compiled_duplicates_noproteosome_minusduplicates_plusrank <- Compiled_duplicates_unique_noproteosome[,1:4]
+
+compiled_duplicates_noproteosome_minusduplicates_plusrank <- 
+  add_column(compiled_duplicates_noproteosome_minusduplicates_plusrank, 1:21, .before = "gene")
+
+colnames(compiled_duplicates_noproteosome_minusduplicates_plusrank) <- c("rank", "gene", "family", "frequency", "pathway")
+
+kable(compiled_duplicates_noproteosome_minusduplicates_plusrank, 
+      caption = "Top bound proteins excluding proteasome bound proteins") %>% 
+  kable_styling() %>% add_header_above(c("Top Enriched Duplicate Proteins" = 5), font_size = 18)
