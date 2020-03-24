@@ -570,4 +570,17 @@ Table3
 ##"figure1", "figure2", "figure3", "figure4"
 ##"Table1", "Table2", "Table3"
 ##Compile tables, remove row names##
-##Table1 = highest frequency unique bound proteins
+##Table1 = Table shows the most enriched bound proteins (compared to wild type)
+##Table2 = Table shows the most enriched bound proteins (compared to wild type) which
+##appear in at least 2 different pathways that i analyzed
+##Table3 = Table shows the most enriched bound proteins (compared to WT) which appear in at 
+##least two pathways and excludes all proteasome bound proteins since these are possibly ust
+##being sent to the proteasome and degraded
+##figure1 = Figure showing the number of affected genes and their protein products in each pathway
+##Figure2 = Figure showing the average frequency score of each pathway
+##Figure3 = Figure showing the percent of each pathway that mutant CALR is binding -- i.e. if
+##the value on this graph is 100, then 100 percent of proteins in that pathway are being 
+##bound by mutant CALR
+##figure4 = dot plot showing the correlation (more accurately the lack of correlation)
+##between frequency of binding and number of proteins bound in each pathway
+
