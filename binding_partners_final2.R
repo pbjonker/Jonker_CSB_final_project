@@ -562,6 +562,9 @@ Table3 <- kable(compiled_duplicates_noproteosome_minusduplicates_plusrank,
       caption = "Top bound proteins excluding proteasome bound proteins") %>% 
   kable_styling() %>% add_header_above(c("Top Enriched Duplicate Proteins" = 5), font_size = 18)
 
+Table1
+Table2
+Table3
 
 ##FINAL FIGURES
 ##"figure1", "figure2", "figure3", "figure4"
