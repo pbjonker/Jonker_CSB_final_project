@@ -15,10 +15,11 @@ the code below was run multiple times--once for each data set. I have tried to g
 repeated bits of code clearly, so that you can read one line, get the picture, and move on.
 
 The python code is the same for every data set other than the names given to each CSV file made
-using it. It takes a raw txt file listing the proteins in the pathway of interest and uses regular
-expressions to extract only the gene names. I have included a chunk of example code in the main
+using it. It takes a raw txt file listing the proteins in the pathway of interest (found at
+http://amp.pharm.mssm.edu/Harmonizome/dataset/Reactome+Pathways) and extracts the
+gene names using regular expressions. I have included a chunk of example code in the main
 repo--as well as the raw txt file containing the proteins from each pathway--that you can run to
-see how it works. Each pathway has its own chunk of code that operates in the exact same way.
+see how it works. Each pathway has its own code that operates in the exact same way.
 The rest of the python files are in a folder in the main repo named "Python_files". Similarly, the
 raw txt files are in a file named "raw_txt_files" in the main repo. 
 
