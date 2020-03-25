@@ -6,7 +6,7 @@
 ##in the cell (which is a lot of proteins), but have done nothing with it. The code below, as well
 ##as code run prior (in python) attempts to take those data and overlap them with 15 datasets
 ##identifying genes in different pathways. This way, by the end of this exercise we will have
-##novel information concerning which proteins mutant calreticulin is binding. 
+##novel information indicating proteins mutant calreticulin is binding. 
 ##The goals of this project include producing multiple graphs summarizing my findings, as well
 ##as a few summative tables indicating key genes (and their protein products) whose
 ##functions are potentially altered due to mutant calreticulin binding. A general note : most of
@@ -23,7 +23,7 @@ library(kableExtra)
 
 
 ## first find upr gene overlap data (below)
-setwd("~/Documents/Graduate_School/Research/Elf_Research/Binding_Partners")
+setwd("~/Documents/Graduate_School/Research/Elf_Research/Binding_Partners/Jonker_CSB_final_project")
 binding_partners <- read.delim("binding_partners.txt")
 length(binding_partners)
 View(binding_partners)
@@ -38,7 +38,6 @@ upr_overlay <- intersect(v1, v2)
 
 ##NFkB signaling protein overlap
 NFkB_raw <- read.csv("NFkB_proteins.csv", header = FALSE)
-
 NFkB_proteins <- t(NFkB_raw)
 view(NFkB_proteins)
 NFkB_proteins <- as.data.frame(NFkB_proteins)
@@ -95,7 +94,7 @@ view(Apoptosis_overlap)
 
 
 
-##
+##Protein folding data
 Protein_folding_raw <- read.csv("Protein_folding.csv", header = FALSE)
 view(Protein_folding_raw)
 Protein_folding <- t(Protein_folding_raw)
@@ -105,7 +104,7 @@ Protein_folding <- as.data.frame(Protein_folding)
 v7 <- Protein_folding$V1
 Protein_folding_overlap <- intersect(v2, v7)
 view(Protein_folding_overlap)
-##
+##end
 
 
 
@@ -153,13 +152,13 @@ nucleosome_proteins <- as.data.frame(nucleosome_proteins)
 v10 <- nucleosome_proteins$V1
 nucleosome_proteins_overlap <- intersect(v2, v10)
 view(nucleosome_proteins_overlap)
-##nucleosome proteins end
+##end
 
 
 
 
 
-##
+##mTOR signaling proteins
 mTOR_raw <- read.csv("mTOR_proteins.csv", header = FALSE)
 view(mTOR_raw)
 mTOR_proteins <- t(mTOR_raw)
@@ -169,7 +168,7 @@ mTOR_proteins <- as.data.frame(mTOR_proteins)
 v11 <- mTOR_proteins$V1
 mTOR_proteins_overlap <- intersect(v2, v11)
 view(mTOR_proteins_overlap)
-##
+##end
 
 
 
@@ -233,7 +232,7 @@ TCR_signaling_proteins <- as.data.frame(TCR_signaling_proteins)
 v15 <- TCR_signaling_proteins$V1
 TCR_proteins_overlap <- intersect(v2, v15)
 view(TCR_proteins_overlap)
-##
+##end
 
 ##ATF4 binding proteins
 ATF4_raw <- read.csv("ATF4_binding.csv", header = FALSE)
@@ -245,11 +244,11 @@ ATF4_binding_proteins <- as.data.frame(ATF4_binding_proteins)
 v16 <- ATF4_binding_proteins$V1
 ATF4_binding_overlap <- intersect(v2, v16)
 view(ATF4_binding_overlap)
-##
+##end
 
-##Match common genes with values to get frequencies by finding their place in the
+
+##Match common genes to get frequencies by finding their place in the "binding_partners"
 ##data frame using the "match" function
-
 
 #TCR
 TCR_numbers <- match(TCR_proteins_overlap, binding_partners$gene, nomatch = FALSE)
@@ -316,7 +315,7 @@ UPR_frequency <- mean(binding_partners$frequency[UPR_numbers])
 
 
 ##Calculate the percent of each pathway bound by mutant CALR by dividing the number of
-## proteins bound by the total number of proteins in the pathway
+## proteins mutant CALR binds by the total number of proteins in the pathway
 
 AAMetabolism_ratio <- length(AAMetabolism_proteins_overlap)/length(AAMetabolism_proteins$V1)
 AATransport_ratio <- length(AATransporter_overlap)/length(AATransporter_proteins$V1)
@@ -481,12 +480,13 @@ Compiled_binding_1 <- Stack(l, UPR_1)
 ##put them in decreasing order based on frequency
 compiled_binding_hfrq <- Compiled_binding_1[order(Compiled_binding_1$frequency, decreasing = TRUE),]
 
-##isolate unique genes
+##isolate unique genes so that there aren't duplicates in the total list
 compiled_binding_hfrq_numbers <- match(unique(compiled_binding_hfrq$gene), 
                                        compiled_binding_hfrq$gene, nomatch = FALSE)
 compiled_binding_hfrq <- compiled_binding_hfrq[compiled_binding_hfrq_numbers,]
 
-
+##isolate genes that are duplicated (repeated at least twice) to find genes that are 
+##potentially key to the cancer driving phenotype, since they affect multiple pathways
 duplicated_genes <- Compiled_binding_1$gene %>% duplicated()
 ##note: for each pair of duplicates, one is printed true and the other false
 duplicated_genes <- as.data.frame(duplicated_genes)
@@ -505,35 +505,27 @@ unique_numbers <- match(unique(Compiled_duplicates_unique$gene),
 Compiled_duplicates_unique1 <- Compiled_duplicates_unique[unique_numbers,]
 Compiled_duplicates_unique <- Compiled_duplicates_unique1[order(Compiled_duplicates_unique1$frequency,
                                                                 decreasing = TRUE),]
-##make list not including proteosome proteins bc proteosome just means its getting degraded##
+##make list omitting proteasome bound proteins bc proteosome could merely mean 
+##mutant CALR is getting degraded##
 
 Compiled_duplicates_unique_noproteosome <- filter(Compiled_duplicates_unique, family != "Proteasome")
 
-##Have figure1,2,3,4 compiled_binding_hfrq (highest frequency genes in binding set), compiled_duplicates_unique 
-##(list of highest scoring frequency duplicates),
-##list of duplicates without proteasome##
 
 library(grid)
 library(gridExtra)
 library(data.table)
 
-##FINAL FIGURES
-##"figure1", "figure2", "figure3", "figure4"
-##"Table1", "Table2", "Table3"
-##Compile tables, remove row names##
-##Table1 = highest frequency unique bound proteins
-##Compile tables, remove row names##
-##Table1 = highest frequency unique bound proteins
-
+##Add a row that lists the rank of each gene in each table (also remove original row names)
 compiled_binding_hfrq_plrank <- compiled_binding_hfrq[1:20 ,1:4]
 rownames(compiled_binding_hfrq_plrank) <- NULL
 compiled_binding_hfrq_plrank <- 
   add_column(compiled_binding_hfrq_plrank, 1:20, .before = "gene")
 colnames(compiled_binding_hfrq_plrank) <- c("rank", "gene", 
                                                         "family", "frequency",
-                                                        "pathway")
+                                                         "pathway")
+##Table1 code (table of highest bound proteins in the dataset)
 Table1 <- kable(compiled_binding_hfrq_plrank, 
-      caption = "Top bound proteins") %>% 
+      caption = "Top mutant CALR bound proteins") %>% 
   kable_styling() %>% add_header_above(c("Top Bound Proteins" = 5), 
                                        font_size = 18)
 
@@ -547,7 +539,7 @@ colnames(compiled_duplicates_unique_mindup_plrank) <- c("rank", "gene",
                                                                          "family", "frequency",
                                                                          "pathway")
 Table2 <- kable(compiled_duplicates_unique_mindup_plrank, 
-      caption = "Top bound proteins in at least two pathways") %>% 
+      caption = "Top mutant CALR bound proteins in at least two pathways") %>% 
   kable_styling() %>% add_header_above(c("Top Bound Proteins in 2 or more Pathways" = 5), 
                                        font_size = 18)
 
@@ -562,7 +554,7 @@ colnames(compiled_duplicates_noproteosome_minusduplicates_plusrank) <- c("rank",
                                                                          "family", "frequency",
                                                                          "pathway")
 Table3 <- kable(compiled_duplicates_noproteosome_minusduplicates_plusrank, 
-      caption = "Top bound proteins excluding proteasome bound proteins") %>% 
+      caption = "Top mutant CALR bound proteins excluding proteasome bound proteins") %>% 
   kable_styling() %>% add_header_above(c("Top Bound Proteins in 2 or more Pathways
                                          (Excluding Proteasome)" = 5), font_size = 18)
 
@@ -587,4 +579,9 @@ Table3
 ##bound by mutant CALR
 ##figure4 = dot plot showing the correlation (more accurately the lack of correlation)
 ##between frequency of binding and number of proteins bound in each pathway
+
+
+
+
+
 
