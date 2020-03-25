@@ -14,8 +14,16 @@ functions are potentially altered due to mutant calreticulin binding. A general 
 the code below was run multiple times--once for each data set. I have tried to group these 
 repeated bits of code clearly, so that you can read one line, get the picture, and move on.
 
+The python code is the same for every data set other than the names given to each CSV file made
+using it. It takes a raw txt file listing the proteins in the pathway of interest and uses regular
+expressions to extract only the gene names. I have included a chunk of example code in the main
+repo--as well as the raw txt file containing the proteins from each pathway--that you can run to
+see how it works. Each pathway has its own chunk of code that operates in the exact same way.
+The rest of the python files are in a folder in the main repo named "Python_files". Similarly, the
+raw txt files are in a file named "raw_txt_files" in the main repo. 
 
-FINAL FIGURES
+
+FINAL FIGURES IN R FILE
 "figure1", "figure2", "figure3", "figure4"
 "Table1", "Table2", "Table3"
 Compile tables, remove row names##
